@@ -1,0 +1,2 @@
+# MCA102P
+BCU I MCA DBMS Lab Exercises 2025-2026
