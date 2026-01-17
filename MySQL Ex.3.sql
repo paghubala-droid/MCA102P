@@ -1,3 +1,5 @@
+# 1. CREATE TABLES: AUTHORS, BOOKS, BORROWERS and LENDING
+
 mysql> CREATE TABLE Authors (
     -> AuthorID INT PRIMARY KEY NOT NULL,
     -> AuthorName VARCHAR(25) NOT NULL,
@@ -31,6 +33,7 @@ mysql> CREATE TABLE Lending (
     -> FOREIGN KEY (BorrowerID) REFERENCES Borrowers(BorrowerID)
     -> );
 
+# 2. INSERT THE RECORDS INTO AUTHORS 
 mysql> INSERT INTO Authors (AuthorID, AuthorName, Nationality) VALUES
     -> (1,'R.K.Narayan', 'Indian'),
     -> (2,'Arundhati Roy', 'Indian'),
@@ -38,6 +41,7 @@ mysql> INSERT INTO Authors (AuthorID, AuthorName, Nationality) VALUES
     -> (4,'J.K.Rowling','British'),
     -> (5,'Chetan Bhagat','Indian');
 
+# INSERT THE RECORDS INTO BOOKS
 mysql> INSERT INTO Books (BookID, Title, AuthorID, PublicationYear, ISBN) VALUES
     -> (1111,'Swamy and Friends',1,'1935', '978-0141439518'),
     -> (2222,'God of Small Things',2,'1997', '978-0141439517'),
@@ -45,12 +49,14 @@ mysql> INSERT INTO Books (BookID, Title, AuthorID, PublicationYear, ISBN) VALUES
     -> (4444,'Harry Potter',4,'1998','987-1402345678'),
     -> (5555,'Fivepoint Someone',5,'2004','986-1401234567');
 
+# INSERT THE RECORDS INTO BORROWERS
 mysql> INSERT INTO Borrowers (
     -> BorrowerID,BorrowerName,Email,PhoneNumber) VALUES
     -> (99,'Herbert','herbert@company.in','9876543210'),
     -> (88,'Dhamodhar','dhamo@company.in','9876543211'),
     -> (77,'Bharani','bharani@company.in','9876543212');
 
+# INSERT THE RECORDS INTO LENDING
 mysql> INSERT INTO Lending (LendingID,BookID, BorrowerID, BorrowDate, ReturnDate) VALUES
     -> (10,1111, 99, '2025-12-01', '2025-12-15'),
     -> (11,2222, 88, '2025-12-10', '2025-12-25'),
@@ -58,6 +64,7 @@ mysql> INSERT INTO Lending (LendingID,BookID, BorrowerID, BorrowDate, ReturnDate
     -> (13,4444, 77, '2025-12-15', '2025-12-30'),
     -> (14,5555, 99, '2026-01-01', NULL);
 
+# 3. Retrieve book details borrowed by a specific borrower using nested queries
 
 mysql> SELECT
     -> B.Title,
@@ -66,16 +73,12 @@ mysql> SELECT
     -> Books AS B
     -> JOIN Authors AS A ON B.AuthorID = A.AuthorID
     -> WHERE
-    -> B.BookID IN (SELECT L.BookID FROM Lending AS L JOIN Borrowers AS BR ON L.BorrowerID = BR.BorrowerID WHERE BR.BorrowerName='Herbert');
+    -> B.BookID IN (SELECT L.BookID FROM Lending AS L JOIN Borrowers AS BR ON L.BorrowerID = BR.BorrowerID 
+    -> WHERE BR.BorrowerName='Herbert');
 
- Title             | AuthorName     |
-+-------------------+----------------+
-| Swamy and Friends | R.K.Narayan    |
-| Satanic Verses    | Salman Rushdie |
-| Fivepoint Someone | Chetan Bhagat  |
-+-------------------+----------------+
+ 
+# 4. Count how many books each borrower has taken using aggregate functions
 
-mysql> #Count how many books each borrower has taken using aggregate functions
 mysql> SELECT
     -> BR.BorrowerName,
     -> COUNT(L.BookID) AS TotalBooksBorrowed
@@ -87,13 +90,9 @@ mysql> SELECT
     -> BR.BorrowerID, BR.BorrowerName
     -> ORDER BY
     -> TotalBooksBorrowed DESC;
-+--------------+--------------------+
-| BorrowerName | TotalBooksBorrowed |
-+--------------+--------------------+
-| Herbert      |                  3 |
-| Bharani      |                  1 |
-| Dhamodhar    |                  1 |
-+--------------+--------------------+
+
+
+# 5. Create a view showing borrower name and books borrowed
 
 mysql> CREATE VIEW BorrowerBooks AS
     -> SELECT
@@ -108,12 +107,6 @@ mysql> CREATE VIEW BorrowerBooks AS
 Query OK, 0 rows affected (0.05 sec)
 
 mysql> SELECT * FROM BorrowerBooks;
-+--------------+---------------------+
-| BorrowerName | Title               |
-+--------------+---------------------+
-| Bharani      | Harry Potter        |
-| Dhamodhar    | God of Small Things |
-| Herbert      | Swamy and Friends   |
-| Herbert      | Satanic Verses      |
-| Herbert      | Fivepoint Someone   |
-+--------------+---------------------+
+
+
+                                     +--------------+---------------------+
