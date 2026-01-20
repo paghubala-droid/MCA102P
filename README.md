@@ -1,5 +1,5 @@
 AIGS MCA
-I MCA DBMS Lab Exercises 2025-2026
+DBMS Lab Exercises 2025-2026
 
 
 Prepared By
