@@ -28,8 +28,8 @@ CREATE TABLE Enrolment (
     CourseID INT,
     EnrolmentDate DATE,
     Grade VARCHAR(2),
-    FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
-    FOREIGN KEY (CourseID) REFERENCES Course(CourseID)
+    FOREIGN KEY (StudentID) REFERENCES Student(StudentID) ON DELETE CASCADE,
+    FOREIGN KEY (CourseID) REFERENCES Course(CourseID) ON DELETE CASCADE
 );
 
 2. Insert records into the Student table
@@ -80,3 +80,4 @@ WHERE CourseID = 126;
 
 #Verify the update and delete
 SELECT * FROM Course;
+
