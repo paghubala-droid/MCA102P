@@ -1,0 +1,81 @@
+Create a MongoDB collection named Students with fields student_id, name, department and marks. Perform the following operations using appropriate MongoDB commands: 
+
+1. Insert at least 5 student records.    
+2. Update the marks of a student based on student_id 
+3. Delete a student record.   
+4. Search for all students in a particular department
+
+
+# Create / Switch to a Database
+
+use StudentDB
+
+1. Insert 5 Student Records
+
+db.Students.insertMany([
+  {
+    student_id: "S001",
+    name: "Alice Johnson",
+    department: "Computer Science",
+    marks: 88
+  },
+  {
+    student_id: "S002",
+    name: "Bob Smith",
+    department: "Mechanical Engineering",
+    marks: 74
+  },
+  {
+    student_id: "S003",
+    name: "Clara Davis",
+    department: "Computer Science",
+    marks: 91
+  },
+  {
+    student_id: "S004",
+    name: "David Lee",
+    department: "Electronics",
+    marks: 65
+  },
+  {
+    student_id: "S005",
+    name: "Eva Martinez",
+    department: "Computer Science",
+    marks: 79
+  }
+])
+
+View All Inserted Records
+
+db.Students.find().pretty()
+
+2. Update Marks of a Student (by student_id)
+(Update marks of student S002 from 74 to 85)
+
+db.Students.updateOne(
+  { student_id: "S002" },
+  { $set: { marks: 85 } }
+)
+
+Verify the update
+
+db.Students.find({ student_id: "S002" }).pretty()
+
+
+3.Delete a Student Record (by student_id)
+
+db.Students.deleteOne(
+  { student_id: "S004" }
+)
+
+Verify deletion:
+
+db.Students.find({ student_id: "S004" }).pretty()
+
+4. Search All Students in a Particular Department
+
+db.Students.find(
+  { department: "Computer Science" },
+  { _id: 0, student_id: 1, name: 1, department: 1, marks: 1 }
+).pretty()
+
