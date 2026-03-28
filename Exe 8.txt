@@ -1,0 +1,57 @@
+SQL> CREATE TABLE Bank_Account (
+  2  Account_No NUMBER(10) PRIMARY KEY,
+  3  Customer_Name VARCHAR2(30),
+  4  Balance NUMBER(10,2)
+  5  );
+
+Table created.
+
+SQL> DESC Bank_Account;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ACCOUNT_NO                                NOT NULL NUMBER(10)
+ CUSTOMER_NAME                                      VARCHAR2(30)
+ BALANCE                                            NUMBER(10,2)
+
+SQL> INSERT INTO Bank_Account VALUES (101, 'Herbi', 5000);
+
+1 row created.
+
+SQL> INSERT INTO Bank_Account VALUES (102, 'Emil', 8000);
+
+1 row created.
+
+SQL> INSERT INTO Bank_Account VALUES (103, 'Dhamodhar', 12000);
+
+1 row created.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SET SERVEROUTPUT ON
+SQL> EDIT exer
+
+# Go to Notepad and type the following coding
+
+DECLARE
+acc NUMBER := &acc_no;
+amt NUMBER := &withdraw_amt;
+bal NUMBER;
+BEGIN
+SELECT Balance INTO bal FROM Bank_Account WHERE Account_No = acc;
+IF amt > bal THEN
+DBMS_OUTPUT.PUT_LINE('Insufficient Balance! Available = ' ||
+bal);
+ELSE
+UPDATE Bank_Account SET Balance = Balance - amt WHERE Account_No
+= acc;
+DBMS_OUTPUT.PUT_LINE('Withdrawal Successful. New Balance =
+' || (bal-amt));
+COMMIT;
+END IF;
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+DBMS_OUTPUT.PUT_LINE('Invalid Account Number!');
+END;
+/
