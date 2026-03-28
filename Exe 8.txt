@@ -55,3 +55,25 @@ WHEN NO_DATA_FOUND THEN
 DBMS_OUTPUT.PUT_LINE('Invalid Account Number!');
 END;
 /
+
+OUTPUT
+SQL> @exer.sql
+Enter value for acc_no: 101
+old   2: acc NUMBER := &acc_no;
+new   2: acc NUMBER := 101;
+Enter value for withdraw_amt: 2000
+old   3: amt NUMBER := &withdraw_amt;
+new   3: amt NUMBER := 2000;
+Withdrawal Successful. New Balance =
+3000
+
+PL/SQL procedure successfully completed.
+
+SQL> @exer.sql
+Enter value for acc_no: 102
+old   2: acc NUMBER := &acc_no;
+new   2: acc NUMBER := 102;
+Enter value for withdraw_amt: 10000
+old   3: amt NUMBER := &withdraw_amt;
+new   3: amt NUMBER := 10000;
+Insufficient Balance! Available = 8000
